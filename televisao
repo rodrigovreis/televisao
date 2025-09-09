@@ -1,0 +1,89 @@
+#include <stdio.h>
+#include <stdbool.h>
+
+#define CANAL_MIN 1
+#define CANAL_MAX 520
+#define VOLUME_MIN 0
+#define VOLUME_MAX 100
+
+// Estado da TV
+static int canalAtual = CANAL_MIN;
+static int ultimoCanal = CANAL_MIN;
+static int volumeAtual = VOLUME_MIN;
+static bool mudoAtivo = false;
+
+// Funções de canal
+void ligar_tv(int canalInicial) {
+    if (canalInicial < CANAL_MIN || canalInicial > CANAL_MAX) {
+        printf("Canal inicial inválido: %d\n", canalInicial);
+        return;
+    }
+    ultimoCanal = canalInicial;
+    canalAtual = canalInicial;
+}
+
+void ir_para_canal(int numero) {
+    if (numero < CANAL_MIN || numero > CANAL_MAX) {
+        printf("Tentativa de trocar para canal inválido: %d\n", numero);
+        return;
+    }
+    if (numero != canalAtual) {
+        ultimoCanal = canalAtual;
+        canalAtual = numero;
+    }
+}
+
+void canal_acima() {
+    if (canalAtual < CANAL_MAX) {
+        ir_para_canal(canalAtual + 1);
+    }
+}
+
+void canal_abaixo() {
+    if (canalAtual > CANAL_MIN) {
+        ir_para_canal(canalAtual - 1);
+    }
+}
+
+void ir_para_ultimo_canal() {
+    ir_para_canal(ultimoCanal);
+}
+
+int obter_canal_atual() {
+    return canalAtual;
+}
+
+// Funções de volume
+void aumentar_volume() {
+    if (volumeAtual < VOLUME_MAX) {
+        volumeAtual++;
+        mudoAtivo = false;
+    }
+}
+
+void reduzir_volume() {
+    if (volumeAtual > VOLUME_MIN) {
+        volumeAtual--;
+        if (volumeAtual == VOLUME_MIN) {
+            mudoAtivo = true;
+        }
+    }
+}
+
+void ativar_mudo() {
+    mudoAtivo = true;
+}
+
+void desativar_mudo() {
+    mudoAtivo = false;
+}
+
+int obter_volume_atual() {
+    return volumeAtual;
+}
+
+bool is_mudo_ativo() {
+    return mudoAtivo;
+
+    return 0;
+}
